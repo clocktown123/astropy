@@ -1,0 +1,40 @@
+#Import numpy to work with numbers and lists of numbers easily
+import numpy as np
+
+#Import pyplot from matplotlib to help us draw graphs and pictures
+import matplotlib.pyplot as plt
+
+#Import fits from astrology.py to open and use special space picture files called FITS
+from astropy.io import fits
+
+#Import download_file from astropy.utils.data to grab data from the internet without leaving our code
+from astropy.utils.data import download_file
+
+#Import LogStretch and PowerStretch from astropy.visualization to make our space pictures look clearer
+from astropy.visualization import LogStretch, PowerStretch
+
+#Import ImageNormalize from astropy.visualization to help make sure our pictures show up nicely in our graphs
+from astropy.visualization.mpl_normalize import ImageNormalize
+
+#use this function to download a space image stored in a FITS file
+import pprint
+
+
+image_file = download_file('https://chandra.harvard.edu/photo/2005/orion/fits/orion_xray_low.fits', cache=True)
+
+image_data = fits.getdata(image_file)
+header = fits.getheader(image_file)
+pprint.pprint(header)
+
+plt.imshow(image_data, cmap='gray')
+plt.show()
+
+plt.figure(figsize=(10,10))
+plt.imshow(image_data, cmap='cividis')
+plt.colorbar()
+plt.show()
+
+print('Min:', np.min(image_data))
+print('Max:', np.max(image_data))
+print('Mean:', np.mean(image_data))
+print('Stdev:', np.std(image_data))
